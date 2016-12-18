@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #box{
+            width: 150px;
+            height:200px;
+            background:silver;
+            position:absolute;
+            left:-150px;
+        }
+        #span{
+            width:20px;
+            height:60px;
+            line-height:20px;
+            background:gray;
+            position:absolute;
+            top:70px;
+            left:150px;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <span id="span">分享到</span>
+</div>
+<script>
+    window.onload=function(){
+        var div=document.getElementById('box');
+        div.onmouseover=function(){
+            move(10,0);
+        }
+        div.onmouseout=function(){
+            move(-10,-150);
+        }
+        var timer;
+        function move(speed,go){
+            clearInterval(timer);
+            timer=setInterval(function(){
+                if(div.offsetLeft==go){
+                    clearInterval(timer);
+                }else {
+                    div.style.left=div.offsetLeft+speed+'px';
+                }
+            },30)
+        }
+    }
+</script>
+</body>
+</html>

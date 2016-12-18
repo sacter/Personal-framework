@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:200px;
+            height:200px;
+            background:green;
+            float:left;
+            margin-left:30px;
+            filter:alpha(opacity:30);
+            opacity:0.3;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<script>
+    window.onload=function(){
+        var div=document.getElementsByTagName('div');
+        for(var i=0;i<div.length;i++){
+            div[i].alpha=30;  //动物体运动形态，他的值不能使用var变量；要设一个相关的属性
+            div[i].onmouseover=function(){
+                move(this,100);
+            }
+            div[i].onmouseout=function(){
+                move(this,30);
+            }
+        }
+        function move(obj,iTarget){
+            clearInterval(obj.timer);
+            obj.timer=setInterval(function(){
+                var speed=(iTarget-obj.alpha)/6; //由要到达的状态减去它自身状态再除以一个数，就可以得到不断变化的速度
+                speed=speed>0?Math.ceil(speed):Math.floor(speed);  //为了在速度小于1或者是大于-1的时候不让计算机将speed变为0
+                if(iTarget==obj.alpha){
+                    clearInterval(obj.timer);
+                }else {
+                    obj.alpha+=speed;
+                    obj.style.filter='alpha(opacity:'+obj.alpha+')';
+                    obj.style.opacity=obj.alpha/100;
+                }
+            },20)
+        }
+    }
+</script>
+</body>
+</html>

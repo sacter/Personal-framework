@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:100px;
+            height:100px;
+            float:left;
+            background:purple;
+            margin-top:10px;
+            border:1px solid red;
+            margin-left:400px;
+        }
+        #div2{
+            filter:alpha(opacity:30);
+            opacity:0.3;
+        }
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3">dw fsdf sdf sdf d sfkm sdif sd </div>
+<script>
+    window.onload=function(){
+        var div1=document.getElementById('div1');
+        var div2=document.getElementById('div2');
+        var div3=document.getElementById('div3');
+        div1.onmouseover=function(){
+            move(this,'width',400);
+        }
+        div1.onmouseout=function(){
+            move(this,'width',100);
+            }
+        div2.onmouseover=function(){
+            move(this,'opacity',100);
+        }
+        div2.onmouseout=function(){
+            move(this,'opacity',30);
+        }
+        div3.onmouseover=function(){
+            move(this,'fontSize',70);
+        }
+        div3.onmouseout=function(){
+            move(this,'fontSize',16);
+        }
+    }
+        function getStyle(obj,name){   //获取元素style的属性值  obj参数是元素  name参数是style样式的名称(width,heught等)
+            if(obj.currentStyle){
+                return obj.currentStyle[name];
+            }else{
+                return getComputedStyle(obj,false)[name];
+            }
+        }
+        function move(obj,attr,iTarget){ //参数obj指代当前元素  attr指代width/height等style值  iTarget指代要到达的位置
+            clearInterval(obj.timer);
+            obj.timer=setInterval(function(){
+                if(attr=='opacity'){
+                    var currt=parseFloat(getStyle(obj,attr))*100;//obj元素当前attr值
+                }else {
+                    var currt=parseInt(getStyle(obj,attr));//obj元素当前attr值
+                }
+                var speed=(iTarget-currt)/6;  //由要到达的状态减去它自身状态再除以一个数，就可以得到不断变化的速度
+                speed=speed>0?Math.ceil(speed):Math.floor(speed);  //为了在速度小于1或者是大于-1的时候不让计算机将speed变为0
+                if(currt==iTarget){
+                    clearInterval(obj.timer);
+                }else {
+                    if(attr=='opacity'){
+                        obj.style.filter='alpha(opacity:'+(currt+speed)+')';
+                        obj.style[attr]=(currt+speed)/100;
+                    }else {
+                        obj.style[attr]=currt+speed+'px';
+                    }
+                }
+            },30)
+    }
+</script>
+</body>
+</html>
